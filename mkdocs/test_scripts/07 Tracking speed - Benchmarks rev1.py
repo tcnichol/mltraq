@@ -38,7 +38,7 @@
 # In[1]:
 
 
-get_ipython().run_line_magic('load_ext', 'pyinstrument')
+# get_ipython().run_line_magic('load_ext', 'pyinstrument')
 
 
 # In[2]:
@@ -51,16 +51,13 @@ import uuid
 from contextlib import contextmanager, redirect_stderr, redirect_stdout
 from os import devnull, environ, makedirs, remove
 
-
 import matplotlib.pyplot as plt
 import mlflow
 import pandas as pd
 import wandb
 
 import mltraq
-from mltraq.utils.plot import bar_plot
-
-
+# from mltraq.utils.plot import bar_plot
 # In[3]:
 
 
@@ -68,8 +65,7 @@ from mltraq.utils.plot import bar_plot
 
 print("mlflow", mlflow.__version__)
 print("wandb", wandb.__version__)
-print("mltraq", mltraq.__version__)
-print("fasttrackml", "0.5.0b2")
+# print("mltraq", mltraq.__version__)
 
 
 # In[4]:
@@ -412,56 +408,65 @@ def report_results(experiment: mltraq.Experiment, save_svg_to=None):
         }
     ):
 
-        bar_plot(
-            experiment.runs.df(),
-            x="n_runs",
-            x_label="Number of runs",
-            y="duration",
-            yerr=True,
-            y_label="Duration (s)",
-            group="method",
-            ax=ax1,
-            y_lim={"bottom": 0},
-            hatches=False,
-            legend={
-                "loc": "lower center",
-                "bbox_to_anchor": (0.5, -1.1),
-                "fancybox": True,
-                "shadow": False,
-                "ncol": 2,
-            },
-        )
+        ax = experiment.runs.df.plot(x="n_runs", y="duration", kind="bar")
+        experiment.runs.df.plot(x="Number of runs", y="Duration (s)", kind="bar", ax=ax, color="maroon")
 
-        bar_plot(
-            experiment.runs.df(),
-            x="n_values",
-            x_label="Number of values",
-            y="duration",
-            yerr=True,
-            group="method",
-            ax=ax2,
-            y_label="duration (s)",
-            y_lim={"bottom": 0},
-            hatches=False,
-            legend={
-                "loc": "lower center",
-                "bbox_to_anchor": (0.5, -1.1),
-                "fancybox": True,
-                "shadow": False,
-                "ncol": 2,
-            },
-        )
+        # bar_plot(
+        #     experiment.runs.df(),
+        #     x="n_runs",
+        #     x_label="Number of runs",
+        #     y="duration",
+        #     yerr=True,
+        #     y_label="Duration (s)",
+        #     group="method",
+        #     ax=ax1,
+        #     y_lim={"bottom": 0},
+        #     hatches=False,
+        #     legend={
+        #         "loc": "lower center",
+        #         "bbox_to_anchor": (0.5, -1.1),
+        #         "fancybox": True,
+        #         "shadow": False,
+        #         "ncol": 2,
+        #     },
+        # )
+
+        ax2 = experiment.runs.df.plot(x="n_values", y="duration", kind="bar")
+        experiment.runs.df.plot(x="Number of values", y="Duration (s)", kind="bar", ax=ax2, color="maroon")
+
+        # bar_plot(
+        #     experiment.runs.df(),
+        #     x="n_values",
+        #     x_label="Number of values",
+        #     y="duration",
+        #     yerr=True,
+        #     group="method",
+        #     ax=ax2,
+        #     y_label="duration (s)",
+        #     y_lim={"bottom": 0},
+        #     hatches=False,
+        #     legend={
+        #         "loc": "lower center",
+        #         "bbox_to_anchor": (0.5, -1.1),
+        #         "fancybox": True,
+        #         "shadow": False,
+        #         "ncol": 2,
+        #     },
+        # )
         ax2.yaxis.label.set_visible(False)
 
-        bar_plot(
-            experiment.runs.df(),
-            x="method",
-            x_label="Method",
-            y="duration",
-            yerr=True,
-            ax=ax3,
-            y_lim={"bottom": 0},
-        )
+        ax3 = experiment.runs.df.plot(x="method", y="Duration", kind="bar")
+        experiment.runs.df.plot(x="Method", y="Duration (s)", kind="bar", ax=ax3, color="maroon")
+
+        # bar_plot(
+        #     experiment.runs.df(),
+        #     x="method",
+        #     x_label="Method",
+        #     y="duration",
+        #     yerr=True,
+        #     ax=ax3,
+        #     y_lim={"bottom": 0},
+        # )
         ax3.yaxis.label.set_visible(False)
         ax3.tick_params(axis="x", labelrotation=45)
 
