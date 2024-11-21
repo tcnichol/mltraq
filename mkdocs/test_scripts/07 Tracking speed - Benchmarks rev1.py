@@ -142,7 +142,7 @@ def test_wandb(n_experiments=1, n_runs=1, n_values=1):
 # In[6]:
 
 
-get_ipython().run_cell_magic('pyinstrument', '', 'test_wandb()\n')
+# get_ipython().run_cell_magic('pyinstrument', '', 'test_wandb()\n')
 
 
 # ## Test procedure for MLflow
@@ -171,7 +171,7 @@ def test_mlflow(n_experiments=1, n_runs=1, n_values=1):
 # In[8]:
 
 
-get_ipython().run_cell_magic('pyinstrument', '', 'test_mlflow()\n')
+# get_ipython().run_cell_magic('pyinstrument', '', 'test_mlflow()\n')
 
 
 # ## Test procedure for FastTrackML
@@ -180,27 +180,27 @@ get_ipython().run_cell_magic('pyinstrument', '', 'test_mlflow()\n')
 
 
 # requires `fml server --log-level error`
-def test_fasttrackml(n_experiments=1, n_runs=1, n_values=1):
-    """
-    Test FastTrackML tracking with a specified number of experiments, runs and values.
-    """
-
-    fasttrackml.set_tracking_uri("http://localhost:5000")
-    client = fasttrackml.FasttrackmlClient()
-    for i in range(n_experiments):
-        experiment_id = str(i)
-        for _ in range(n_runs):
-            run = client.create_run(experiment_id)
-            run_id = run.info.run_id
-            for _ in range(0, n_values):
-                client.log_metric(run_id, "value", 123.45)
-        client.set_terminated(run_id)
+# def test_fasttrackml(n_experiments=1, n_runs=1, n_values=1):
+#     """
+#     Test FastTrackML tracking with a specified number of experiments, runs and values.
+#     """
+#
+#     fasttrackml.set_tracking_uri("http://localhost:5000")
+#     client = fasttrackml.FasttrackmlClient()
+#     for i in range(n_experiments):
+#         experiment_id = str(i)
+#         for _ in range(n_runs):
+#             run = client.create_run(experiment_id)
+#             run_id = run.info.run_id
+#             for _ in range(0, n_values):
+#                 client.log_metric(run_id, "value", 123.45)
+#         client.set_terminated(run_id)
 
 
 # In[12]:
 
 
-get_ipython().run_cell_magic('pyinstrument', '', 'test_fasttrackml()\n')
+# get_ipython().run_cell_magic('pyinstrument', '', 'test_fasttrackml()\n')
 
 
 # ## Test procedure for Neptune
@@ -208,30 +208,30 @@ get_ipython().run_cell_magic('pyinstrument', '', 'test_fasttrackml()\n')
 # In[13]:
 
 
-def test_neptune(n_experiments=1, n_runs=1, n_values=1):
-    """
-    Test Neptune tracking with a specified number of experiments, runs and values.
-    """
-
-    for _ in range(n_experiments):
-        # No "experiment" concept in Neptune, and we cannot create "projects" offline on the free plan.
-        # Also, not easy to set a custom directory, it will log things in .neptune/
-        for _ in range(n_runs):
-            run = neptune.init_run(
-                project=f"workspace/{str(uuid.uuid4())}",
-                mode="offline",
-                git_ref=False,
-            )
-            for _ in range(0, n_values):
-                run["value"].append(123.45)
-            run.wait()
-            run.stop()
+# def test_neptune(n_experiments=1, n_runs=1, n_values=1):
+#     """
+#     Test Neptune tracking with a specified number of experiments, runs and values.
+#     """
+#
+#     for _ in range(n_experiments):
+#         # No "experiment" concept in Neptune, and we cannot create "projects" offline on the free plan.
+#         # Also, not easy to set a custom directory, it will log things in .neptune/
+#         for _ in range(n_runs):
+#             run = neptune.init_run(
+#                 project=f"workspace/{str(uuid.uuid4())}",
+#                 mode="offline",
+#                 git_ref=False,
+#             )
+#             for _ in range(0, n_values):
+#                 run["value"].append(123.45)
+#             run.wait()
+#             run.stop()
 
 
 # In[14]:
 
 
-get_ipython().run_cell_magic('pyinstrument', '', 'test_neptune()\n')
+# get_ipython().run_cell_magic('pyinstrument', '', 'test_neptune()\n')
 
 
 # ## Test procedure for Aim
@@ -239,32 +239,32 @@ get_ipython().run_cell_magic('pyinstrument', '', 'test_neptune()\n')
 # In[15]:
 
 
-def test_aim(n_experiments=1, n_runs=1, n_values=1):
-    """
-    Test Aim tracking with a specified number of experiments, runs and values.
-    """
-
-    create_dir("tmp/aim/")
-    repo = f"tmp/aim/{uuid.uuid4()}"
-    for _ in range(n_experiments):
-        for _ in range(n_runs):
-            run_id = str(uuid.uuid4())
-            # Doc: https://aimstack.readthedocs.io/en/latest/refs/sdk.html#aim.sdk.run.Run
-            # Experiments in Aim match to what we call runs in this notebook.
-            run = aim.Run(
-                repo=repo,
-                experiment=run_id,
-                system_tracking_interval=None,
-                capture_terminal_logs=False,
-            )
-            for _ in range(0, n_values):
-                run.track({"value": 123.45})
-
-
-# In[16]:
-
-
-get_ipython().run_cell_magic('pyinstrument', '', 'test_aim()\n')
+# def test_aim(n_experiments=1, n_runs=1, n_values=1):
+#     """
+#     Test Aim tracking with a specified number of experiments, runs and values.
+#     """
+#
+#     create_dir("tmp/aim/")
+#     repo = f"tmp/aim/{uuid.uuid4()}"
+#     for _ in range(n_experiments):
+#         for _ in range(n_runs):
+#             run_id = str(uuid.uuid4())
+#             # Doc: https://aimstack.readthedocs.io/en/latest/refs/sdk.html#aim.sdk.run.Run
+#             # Experiments in Aim match to what we call runs in this notebook.
+#             run = aim.Run(
+#                 repo=repo,
+#                 experiment=run_id,
+#                 system_tracking_interval=None,
+#                 capture_terminal_logs=False,
+#             )
+#             for _ in range(0, n_values):
+#                 run.track({"value": 123.45})
+#
+#
+# # In[16]:
+#
+#
+# get_ipython().run_cell_magic('pyinstrument', '', 'test_aim()\n')
 
 
 # ## Test procedure for Comet
@@ -272,41 +272,41 @@ get_ipython().run_cell_magic('pyinstrument', '', 'test_aim()\n')
 # In[72]:
 
 
-def test_comet(n_experiments=1, n_runs=1, n_values=1):
-    """
-    Test Comet tracking with a specified number of experiments, runs and values.
-    """
-
-    tmp_dir = f"tmp/comet/{uuid.uuid4()}"
-    create_dir(tmp_dir)
-    for _ in range(n_experiments):
-        experiment_id = str(uuid.uuid4())
-        for _ in range(n_runs):
-            run_id = str(uuid.uuid4().hex)  # Only alphanum IDs for Comet experiments, which match our semantics of runs
-            run = comet_ml.OfflineExperiment(
-                project_name=experiment_id,
-                log_code=False,
-                log_graph=False,
-                log_env_gpu=False,
-                log_env_cpu=False,
-                log_env_network=False,
-                log_env_disk=False,
-                log_env_host=False,
-                log_git_metadata=False,
-                offline_directory=tmp_dir,
-                experiment_key=run_id,
-                display_summary_level=0,
-            )
-            for _ in range(0, n_values):
-                run.log_metrics({"value": 123.45})
-            run.end()
-
-
-# In[73]:
-
-
-get_ipython().run_cell_magic('pyinstrument', '', 'test_comet()\n')
-
+# def test_comet(n_experiments=1, n_runs=1, n_values=1):
+#     """
+#     Test Comet tracking with a specified number of experiments, runs and values.
+#     """
+#
+#     tmp_dir = f"tmp/comet/{uuid.uuid4()}"
+#     create_dir(tmp_dir)
+#     for _ in range(n_experiments):
+#         experiment_id = str(uuid.uuid4())
+#         for _ in range(n_runs):
+#             run_id = str(uuid.uuid4().hex)  # Only alphanum IDs for Comet experiments, which match our semantics of runs
+#             run = comet_ml.OfflineExperiment(
+#                 project_name=experiment_id,
+#                 log_code=False,
+#                 log_graph=False,
+#                 log_env_gpu=False,
+#                 log_env_cpu=False,
+#                 log_env_network=False,
+#                 log_env_disk=False,
+#                 log_env_host=False,
+#                 log_git_metadata=False,
+#                 offline_directory=tmp_dir,
+#                 experiment_key=run_id,
+#                 display_summary_level=0,
+#             )
+#             for _ in range(0, n_values):
+#                 run.log_metrics({"value": 123.45})
+#             run.end()
+#
+#
+# # In[73]:
+#
+#
+# get_ipython().run_cell_magic('pyinstrument', '', 'test_comet()\n')
+#
 
 # ## Test procedure for MLtraq
 
@@ -336,7 +336,7 @@ def test_mltraq(n_experiments=1, n_runs=1, n_values=1):
 # In[20]:
 
 
-get_ipython().run_cell_magic('pyinstrument', '', 'test_mltraq()\n')
+# get_ipython().run_cell_magic('pyinstrument', '', 'test_mltraq()\n')
 
 
 # ## Defining the experiment
@@ -357,13 +357,7 @@ def eval_time(run: mltraq.Run):
 
         # Start tracking time.
         log.append(tag="begin")
-        if run.params.method == "FastTrackML":
-            test_fasttrackml(
-                n_experiments=run.params.n_experiments,
-                n_runs=run.params.n_runs,
-                n_values=run.params.n_values,
-            )
-        elif run.params.method == "MLflow":
+        if run.params.method == "MLflow":
             test_mlflow(
                 n_experiments=run.params.n_experiments,
                 n_runs=run.params.n_runs,
@@ -375,26 +369,8 @@ def eval_time(run: mltraq.Run):
                 n_runs=run.params.n_runs,
                 n_values=run.params.n_values,
             )
-        elif run.params.method == "Neptune":
-            test_neptune(
-                n_experiments=run.params.n_experiments,
-                n_runs=run.params.n_runs,
-                n_values=run.params.n_values,
-            )
         elif run.params.method == "WandB":
             test_wandb(
-                n_experiments=run.params.n_experiments,
-                n_runs=run.params.n_runs,
-                n_values=run.params.n_values,
-            )
-        elif run.params.method == "Aim":
-            test_aim(
-                n_experiments=run.params.n_experiments,
-                n_runs=run.params.n_runs,
-                n_values=run.params.n_values,
-            )
-        elif run.params.method == "Comet":
-            test_comet(
                 n_experiments=run.params.n_experiments,
                 n_runs=run.params.n_runs,
                 n_values=run.params.n_values,
@@ -498,7 +474,7 @@ def report_results(experiment: mltraq.Experiment, save_svg_to=None):
     print("\nAveraged results by method\n")
     df = experiment.runs.df().groupby("method")["duration"].mean().sort_values().to_frame()
     df["ratio_to_best"] = df["duration"] / df["duration"].iloc[0]
-    display(df)
+    print(df)
     print("\n")
 
 
