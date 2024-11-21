@@ -527,13 +527,9 @@ session = mltraq.create_session("sqlite:///local/benchmarks_rev1.db")
 e = session.create_experiment("exp-1", if_exists="replace")
 e.add_runs(
     method=[
-        "Aim",
-        "Comet",
         "WandB",
-        "Neptune",
         "MLtraq",
         "MLflow",
-        "FastTrackML",
     ],
     i=range(10),
     n_experiments=[1],
@@ -571,13 +567,9 @@ report_results(session.load("exp-1"))
 e = session.create_experiment("exp-2")
 e.add_runs(
     method=[
-        "Aim",
-        "Comet",
         "WandB",
-        "Neptune",
         "MLtraq",
         "MLflow",
-        "FastTrackML",
     ],
     i=range(10),
     n_experiments=[1],
@@ -609,13 +601,9 @@ report_results(session.load("exp-2"))
 e = session.create_experiment("exp-3")
 e.add_runs(
     method=[
-        "Aim",
-        "Comet",
         "WandB",
-        "Neptune",
         "MLtraq",
         "MLflow",
-        "FastTrackML",
     ],
     i=range(10),
     n_experiments=[1],
@@ -647,25 +635,26 @@ report_results(session.load("exp-3"))
 
 # In[40]:
 
+# NOTE WE DO NOT RUN EXPERIMENT 4
 
-e = session.create_experiment("exp-4")
-e.add_runs(
-    method=["Comet", "Neptune", "MLtraq", "FastTrackML"],
-    i=range(10),
-    n_experiments=[1],
-    n_runs=[100],
-    n_values=[1],
-)
+# e = session.create_experiment("exp-4")
+# e.add_runs(
+#     method=["Comet", "Neptune", "MLtraq", "FastTrackML"],
+#     i=range(10),
+#     n_experiments=[1],
+#     n_runs=[100],
+#     n_values=[1],
+# )
 
 # Parallelization is disabled as it might affect results.
-e.execute([cleanup, eval_time, cleanup], n_jobs=1).persist(if_exists="replace")
+# e.execute([cleanup, eval_time, cleanup], n_jobs=1).persist(if_exists="replace")
 
 
 # In[41]:
 
 
 # Report results
-report_results(session.load("exp-4"))
+# report_results(session.load("exp-4"))
 
 
 # The results are very similar to Experiment 4. Creating hundreds of files, and zipping them, is very expensive for Comet. The other methods (MLFlow, WandB) have been excluded as they are orders of magnitude slower. They're out of the game.
@@ -674,25 +663,26 @@ report_results(session.load("exp-4"))
 
 # In[ ]:
 
+# NOTE WE DO NOT RUN EXPERIMENT 5
 
-e = session.create_experiment("exp-5")
-e.add_runs(
-    method=["Neptune", "MLtraq"],
-    i=range(10),
-    n_experiments=[1],
-    n_runs=[500, 1000],
-    n_values=[500, 1000],
-)
-
-# Parallelization is disabled as it might affect results.
-e.execute([cleanup, eval_time, cleanup], n_jobs=1).persist(if_exists="replace")
-
-
-# In[49]:
-
-
-# Report results
-report_results(session.load("exp-5"))
+# e = session.create_experiment("exp-5")
+# e.add_runs(
+#     method=["Neptune", "MLtraq"],
+#     i=range(10),
+#     n_experiments=[1],
+#     n_runs=[500, 1000],
+#     n_values=[500, 1000],
+# )
+#
+# # Parallelization is disabled as it might affect results.
+# e.execute([cleanup, eval_time, cleanup], n_jobs=1).persist(if_exists="replace")
+#
+#
+# # In[49]:
+#
+#
+# # Report results
+# report_results(session.load("exp-5"))
 
 
 # * As we increase the number of tracked values or runs, MLtraq becomes more and more competitive. With no threading and no filesystem bottleneck, it is the fastest method for realistic workloads.
@@ -732,14 +722,14 @@ report_results(
     session.load("exp-3"),
     save_svg_to="../mkdocs/assets/img/benchmarks/exp-3.svg",
 )
-report_results(
-    session.load("exp-4"),
-    save_svg_to="../mkdocs/assets/img/benchmarks/exp-4.svg",
-)
-report_results(
-    session.load("exp-5"),
-    save_svg_to="../mkdocs/assets/img/benchmarks/exp-5.svg",
-)
+# report_results(
+#     session.load("ezxp-4"),
+#     save_svg_to="../mkdocs/assets/img/benchmarks/exp-4.svg",
+# )
+# report_results(
+#     session.load("exp-5"),
+#     save_svg_to="../mkdocs/assets/img/benchmarks/exp-5.svg",
+# )
 
 
 # ## Conclusion
