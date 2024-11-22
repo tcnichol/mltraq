@@ -526,7 +526,7 @@ e.execute([cleanup, eval_time, cleanup], n_jobs=1).persist(if_exists="replace")
 
 
 # Report results
-report_results(session.load("exp-1"))
+report_results(session.load_experiment("exp-1"))
 
 
 # The analysis of the test procedures with `pyinstrument` reveals where most of the time is spent for each method:
@@ -566,7 +566,7 @@ e.execute([cleanup, eval_time, cleanup], n_jobs=1).persist(if_exists="replace")
 
 
 # Report results
-report_results(session.load("exp-2"))
+report_results(session.load_experiment("exp-2"))
 
 
 # * Performance changes dramatically, with WandB, MLflow, FastTrackML and Aim being the worst performing, either due to thread communication (WandB, Aim) or database management (MLflow, FastTrackML). MLflow and FastTrackML have the same database schema, which is rather expensive to maintain.
@@ -600,7 +600,7 @@ e.execute([cleanup, eval_time, cleanup], n_jobs=1).persist(if_exists="replace")
 
 
 # Report results
-report_results(session.load("exp-3"))
+report_results(session.load_experiment("exp-3"))
 
 
 # The results are very similar to Experiment 1, with MLtraq now performing at the top.
