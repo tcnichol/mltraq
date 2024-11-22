@@ -493,7 +493,7 @@ def report_results(experiment: mltraq.Experiment, save_svg_to=None):
 
 
 # Create an MLtraq session to track the benchmarks
-session = mltraq.create_session("sqlite:///local/benchmarks_rev1.db")
+session = mltraq.create_session("sqlite:///benchmarks_rev1.db")
 
 
 # ### Experiment 1: How long does tracking a single value take?
